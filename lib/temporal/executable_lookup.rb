@@ -1,4 +1,5 @@
 require 'temporal/errors'
+require 'temporal/executable_ref'
 
 # This class is responsible for matching an executable (activity or workflow) name
 # to a class implementing it.
@@ -36,7 +37,13 @@ module Temporal
     end
 
     def find(name)
-      executables[name] || @fallback_executable
+      executable = executables[name] || @fallback_executable
+
+      if executable.is_a?(Temporal::ExecutableRef)
+        executable.constantize
+      else
+        executable
+      end
     end
 
     private

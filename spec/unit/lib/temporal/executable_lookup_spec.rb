@@ -38,6 +38,20 @@ describe Temporal::ExecutableLookup do
       expect(subject.find('foo')).to eq(TestClass)
     end
 
+    it 'returns a looked up executable ref with constant' do
+      ref = Temporal::ExecutableRef[TestClass]
+      subject.add('bar', ref)
+
+      expect(subject.find('bar')).to eq(TestClass)
+    end
+
+    it 'returns a looked up executable ref with string' do
+      ref = Temporal::ExecutableRef['TestClass']
+      subject.add('bar', ref)
+
+      expect(subject.find('bar')).to eq(TestClass)
+    end
+
     it 'returns nil if there were no matches' do
       expect(subject.find('bar')).to eq(nil)
     end
